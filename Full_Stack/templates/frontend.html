@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Campus Pathfinding</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #333;
+            padding: 20px;
+            text-align: center;
+            background-color: #fff;
+            margin: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            height: calc(100vh - 100px);
+        }
+
+        .form-box {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+            width: 350px;
+            height: fit-content;
+        }
+
+        label, select, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        select, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        .result {
+            margin-top: 30px;
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result.error {
+            background: #ffebee;
+        }
+
+        .map-box {
+            flex: 1;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .label-tooltip {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .path-info {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 4px solid #0077cc;
+        }
+
+        .directions {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .direction-step {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .direction-step:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Chanakya University Campus Pathfinding System</h1>
+
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-box">
+            <form id="pathForm">
+                <label for="start">Start Location:</label>
+                <select name="start" id="start" required>
+                    <option value="">Select start location</option>
+                    {% for location in locations %}
+                        <option value="{{ location }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="goal">Goal Location:</label>
+                <select name="goal" id="goal" required>
+                    <option value="">Select goal location</option>
+                    {% for location in locations %}
+                        <option value="{{ location }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="algorithm">Choose Algorithm:</label>
+                <select name="algorithm" id="algorithm" required>
+                    <option value="bfs">Breadth-First Search (BFS)</option>
+                    <option value="dfs">Depth-First Search (DFS)</option>
+                    <option value="ucs">Uniform Cost Search (UCS)</option>
+                    <option value="a_star">A* Search</option>
+                </select>
+
+                <button type="submit">Find Path</button>
+            </form>
+
+            <div id="result" class="result">
+                <h3>Path Found:</h3>
+                <div id="pathResult"></div>
+                <div id="costResult" class="path-info"></div>
+                <div id="directionsResult" class="directions"></div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="map-box">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script>
+        // Campus coordinates - updated to match the new graph
+        const locations = {
+            "Main Gate": [13.2200, 77.7539],
+            "ID Gate": [13.2218, 77.7550],
+            "Library": [13.221971, 77.75558],
+            "Lawn Area": [13.222775, 77.755576],
+            "Vendi": [13.222264, 77.755126],
+            "ACB2": [13.22336, 77.755963],
+            "Food court": [13.224758, 77.75725],
+            "Hostel": [13.224195, 77.758613],
+            "Sports": [13.22887, 77.7572],
+            "Cafe": [13.22242, 77.755158]
+        };
+
+        // Initialize map
+        const map = L.map('map').setView([13.223, 77.756], 16);
+
+        // Use OpenStreetMap tiles (no API key required)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Store markers and path layer
+        let markers = {};
+        let pathLayer = null;
+        let startMarker = null;
+        let goalMarker = null;
+
+        // Add markers with popups and labels
+        for (const [name, coords] of Object.entries(locations)) {
+            const marker = L.marker(coords).addTo(map).bindPopup(`
+                <strong>${name}</strong><br>
+                <button onclick="setStartLocation('${name}')">Set as Start</button>
+                <button onclick="setGoalLocation('${name}')">Set as Goal</button>
+            `);
+
+            markers[name] = marker;
+
+            // Add permanent label
+            L.tooltip({
+                permanent: true,
+                direction: 'right',
+                offset: [10, 0],
+                className: 'label-tooltip'
+            })
+            .setContent(name)
+            .setLatLng(coords)
+            .addTo(map);
+        }
+
+        // Function to set start location from map click
+        function setStartLocation(location) {
+            document.getElementById('start').value = location;
+            updateStartMarker(location);
+        }
+
+        // Function to set goal location from map click
+        function setGoalLocation(location) {
+            document.getElementById('goal').value = location;
+            updateGoalMarker(location);
+        }
+
+        // Update start marker with different color
+        function updateStartMarker(location) {
+            if (startMarker) {
+                map.removeLayer(startMarker);
+            }
+            if (locations[location]) {
+                startMarker = L.marker(locations[location], {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    })
+                }).addTo(map).bindPopup(`<strong>Start: ${location}</strong>`);
+            }
+        }
+
+        // Update goal marker with different color
+        function updateGoalMarker(location) {
+            if (goalMarker) {
+                map.removeLayer(goalMarker);
+            }
+            if (locations[location]) {
+                goalMarker = L.marker(locations[location], {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    })
+                }).addTo(map).bindPopup(`<strong>Goal: ${location}</strong>`);
+            }
+        }
+
+        // Function to draw path on map
+        function drawPath(path) {
+            // Remove existing path
+            if (pathLayer) {
+                map.removeLayer(pathLayer);
+            }
+
+            if (path && path.length > 1) {
+                const latlngs = path.map(location => locations[location]);
+                pathLayer = L.polyline(latlngs, {
+                    color: 'blue',
+                    weight: 6,
+                    opacity: 0.7,
+                    smoothFactor: 1
+                }).addTo(map);
+
+                // Fit map to show the entire path
+                map.fitBounds(pathLayer.getBounds());
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('pathForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const start = document.getElementById('start').value;
+            const goal = document.getElementById('goal').value;
+            const algorithm = document.getElementById('algorithm').value;
+            
+            if (!start || !goal) {
+                alert('Please select both start and goal locations');
+                return;
+            }
+
+            try {
+                const response = await fetch('/find_path', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        start: start,
+                        goal: goal,
+                        algorithm: algorithm
+                    })
+                });
+
+                const data = await response.json();
+                const resultDiv = document.getElementById('result');
+                const pathResult = document.getElementById('pathResult');
+                const costResult = document.getElementById('costResult');
+                const directionsResult = document.getElementById('directionsResult');
+
+                if (data.success) {
+                    resultDiv.style.display = 'block';
+                    resultDiv.className = 'result';
+                    pathResult.innerHTML = `<strong>Path: ${data.path.join(' → ')}</strong>`;
+                    
+                    if (data.distance !== null) {
+                        costResult.innerHTML = `
+                            <strong>Total Distance:</strong> ${data.distance} meters<br>
+                            <strong>Estimated Time:</strong> ${data.time} minutes<br>
+                            <strong>Nodes Explored:</strong> ${data.nodes_explored}<br>
+                            <strong>Algorithm:</strong> ${data.algorithm.toUpperCase()}
+                        `;
+                    } else {
+                        costResult.innerHTML = '';
+                    }
+
+                    // Display directions
+                    if (data.directions && data.directions.length > 0) {
+                        directionsResult.innerHTML = '<strong>Directions:</strong>';
+                        data.directions.forEach((direction, index) => {
+                            const stepDiv = document.createElement('div');
+                            stepDiv.className = 'direction-step';
+                            stepDiv.textContent = `${index + 1}. ${direction}`;
+                            directionsResult.appendChild(stepDiv);
+                        });
+                    } else {
+                        directionsResult.innerHTML = '';
+                    }
+
+                    // Draw the path on the map
+                    drawPath(data.path);
+                    updateStartMarker(start);
+                    updateGoalMarker(goal);
+                } else {
+                    resultDiv.style.display = 'block';
+                    resultDiv.className = 'result error';
+                    pathResult.innerHTML = data.error || 'No path found between the selected locations';
+                    costResult.innerHTML = '';
+                    directionsResult.innerHTML = '';
+                    
+                    // Clear path from map
+                    if (pathLayer) {
+                        map.removeLayer(pathLayer);
+                        pathLayer = null;
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error finding path. Please try again.');
+            }
+        });
+
+        // Clear path when selections change
+        document.getElementById('start').addEventListener('change', function() {
+            updateStartMarker(this.value);
+        });
+
+        document.getElementById('goal').addEventListener('change', function() {
+            updateGoalMarker(this.value);
+        });
+    </script>
+
+</body>
+</html>
