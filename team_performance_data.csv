@@ -1,0 +1,49 @@
+team_name,confederation,region,fifa_ranking,fifa_points,world_cup_appearances,world_cup_titles,best_world_cup_performance,total_international_matches,total_wins,total_draws,total_losses,goals_scored,goals_conceded,current_coach,data_source,last_data_update
+Algeria,CAF,Africa,50,1537,6,0,Quarter-finals,259,63,60,60,530,154,Coach_Algeria,FIFA.com,2024-01-15
+Argentina,CONMEBOL,South America,1,2262,17,3,Winner,229,46,88,20,449,291,Coach_Argentina,FIFA.com,2024-01-15
+Australia,AFC,Asia,40,1688,3,0,Quarter-finals,327,185,66,48,553,280,Coach_Australia,FIFA.com,2024-01-15
+Brazil,CONMEBOL,South America,4,2195,20,5,Winner,326,116,82,76,103,222,Coach_Brazil,FIFA.com,2024-01-15
+Canada,CONCACAF,North America,45,1614,10,0,Runner-up,381,171,95,26,138,331,Coach_Canada,FIFA.com,2024-01-15
+Cape Verde,OFC,Oceania,37,1714,3,0,Quarter-finals,304,163,42,68,190,125,Coach_Cape_Verde,FIFA.com,2024-01-15
+Colombia,CONMEBOL,South America,38,1720,6,0,Semi-finals,114,176,49,34,523,349,Coach_Colombia,FIFA.com,2024-01-15
+Ecuador,CONMEBOL,South America,50,1542,8,0,Semi-finals,162,139,70,12,525,280,Coach_Ecuador,FIFA.com,2024-01-15
+Egypt,CAF,Africa,52,1494,14,0,Quarter-finals,285,92,92,28,530,199,Coach_Egypt,FIFA.com,2024-01-15
+England,UEFA,Europe,10,2140,9,1,Winner,365,38,83,42,475,168,Coach_England,FIFA.com,2024-01-15
+Ghana,CAF,Africa,38,1695,6,0,Quarter-finals,301,70,87,77,575,343,Coach_Ghana,FIFA.com,2024-01-15
+Iran,AFC,Asia,26,1886,10,0,Quarter-finals,334,212,35,71,468,237,Coach_Iran,FIFA.com,2024-01-15
+Ivory Coast,CAF,Africa,36,1749,12,0,Semi-finals,129,242,40,78,403,251,Coach_Ivory_Coast,FIFA.com,2024-01-15
+Japan,AFC,Asia,57,1408,14,0,Runner-up,114,238,84,17,400,155,Coach_Japan,FIFA.com,2024-01-15
+Jordan,OFC,Oceania,39,1688,11,0,Runner-up,311,50,70,47,375,236,Coach_Jordan,FIFA.com,2024-01-15
+Mexico,CONCACAF,North America,28,1841,13,0,Semi-finals,155,202,86,75,571,241,Coach_Mexico,FIFA.com,2024-01-15
+Morocco,CAF,Africa,51,1490,9,0,Quarter-finals,341,243,44,26,160,347,Coach_Morocco,FIFA.com,2024-01-15
+New Zealand,OFC,Oceania,30,1830,12,0,Quarter-finals,172,138,59,23,390,316,Coach_New_Zealand,FIFA.com,2024-01-15
+Paraguay,CONMEBOL,South America,44,1607,14,0,Semi-finals,128,75,81,17,142,169,Coach_Paraguay,FIFA.com,2024-01-15
+Qatar,AFC,Asia,45,1588,9,0,Runner-up,384,70,36,30,406,138,Coach_Qatar,FIFA.com,2024-01-15
+Saudi Arabia,AFC,Asia,37,1710,15,0,Quarter-finals,206,75,64,10,267,187,Coach_Saudi_Arabia,FIFA.com,2024-01-15
+Senegal,CAF,Africa,43,1621,9,0,Runner-up,188,41,80,42,400,169,Coach_Senegal,FIFA.com,2024-01-15
+South Africa,CAF,Africa,52,1479,9,0,Runner-up,253,116,49,56,314,256,Coach_South_Africa,FIFA.com,2024-01-15
+South Korea,AFC,Asia,44,1612,3,0,Semi-finals,240,156,55,28,338,163,Coach_South_Korea,FIFA.com,2024-01-15
+Tunisia,CAF,Africa,57,1411,11,0,Quarter-finals,222,70,58,11,546,184,Coach_Tunisia,FIFA.com,2024-01-15
+Uruguay,CONMEBOL,South America,34,1746,4,0,Quarter-finals,345,171,70,48,127,338,Coach_Uruguay,FIFA.com,2024-01-15
+USA,CONCACAF,North America,44,1600,12,0,Runner-up,81,122,57,12,499,337,Coach_USA,FIFA.com,2024-01-15
+Uzbekistan,AFC,Asia,41,1651,4,0,Quarter-finals,390,74,98,71,148,206,Coach_Uzbekistan,FIFA.com,2024-01-15
+France,UEFA,Europe,3,2234,8,2,Winner,373,57,40,63,206,225,Coach_France,FIFA.com,2024-01-15
+Germany,UEFA,Europe,8,2169,16,4,Winner,152,210,49,69,463,274,Coach_Germany,FIFA.com,2024-01-15
+Spain,UEFA,Europe,13,2082,9,1,Winner,154,77,51,66,217,179,Coach_Spain,FIFA.com,2024-01-15
+Portugal,UEFA,Europe,5,2203,8,0,Semi-finals,235,194,26,77,520,135,Coach_Portugal,FIFA.com,2024-01-15
+Netherlands,UEFA,Europe,15,2030,16,0,Quarter-finals,236,231,79,27,575,205,Coach_Netherlands,FIFA.com,2024-01-15
+Belgium,UEFA,Europe,15,2067,17,0,Runner-up,255,145,75,74,130,192,Coach_Belgium,FIFA.com,2024-01-15
+Italy,UEFA,Europe,16,2019,16,4,Winner,146,104,64,13,253,234,Coach_Italy,FIFA.com,2024-01-15
+Croatia,UEFA,Europe,20,1981,11,0,Quarter-finals,385,35,78,24,344,109,Coach_Croatia,FIFA.com,2024-01-15
+Denmark,UEFA,Europe,59,1392,7,0,Semi-finals,280,142,48,68,530,205,Coach_Denmark,FIFA.com,2024-01-15
+Switzerland,UEFA,Europe,41,1671,17,0,Semi-finals,147,98,56,58,496,241,Coach_Switzerland,FIFA.com,2024-01-15
+Sweden,UEFA,Europe,46,1587,4,0,Quarter-finals,121,127,51,60,349,100,Coach_Sweden,FIFA.com,2024-01-15
+Poland,UEFA,Europe,35,1768,5,0,Quarter-finals,171,220,43,22,210,218,Coach_Poland,FIFA.com,2024-01-15
+Ukraine,UEFA,Europe,41,1674,13,0,Semi-finals,183,243,43,28,264,87,Coach_Ukraine,FIFA.com,2024-01-15
+Austria,UEFA,Europe,52,1479,2,0,Runner-up,243,147,38,73,190,196,Coach_Austria,FIFA.com,2024-01-15
+Serbia,UEFA,Europe,58,1395,7,0,Runner-up,126,169,40,20,586,84,Coach_Serbia,FIFA.com,2024-01-15
+Chile,CONMEBOL,South America,41,1659,10,0,Semi-finals,91,99,36,28,253,187,Coach_Chile,FIFA.com,2024-01-15
+Peru,CONMEBOL,South America,56,1420,16,0,Quarter-finals,329,131,94,42,545,295,Coach_Peru,FIFA.com,2024-01-15
+Costa Rica,CONCACAF,North America,47,1564,12,0,Quarter-finals,271,238,70,62,561,298,Coach_Costa_Rica,FIFA.com,2024-01-15
+Jamaica,CONCACAF,North America,42,1652,4,0,Quarter-finals,318,33,26,44,147,195,Coach_Jamaica,FIFA.com,2024-01-15
+Panama,CONCACAF,North America,41,1656,2,0,Runner-up,226,92,57,76,542,92,Coach_Panama,FIFA.com,2024-01-15
