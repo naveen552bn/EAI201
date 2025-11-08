@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>FIFA 2026 Predictor</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg, #f0fff0, #e7ffe7);
+      color: #222;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: flex-end; /* right alignment */
+      align-items: center;
+      padding-right: 10%;
+    }
+
+    .card {
+      width: 380px;
+      background: #ffffff;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 4px 6px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid #d4f8d4;
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #008000;
+      letter-spacing: 0.5px;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      text-align: left;
+      margin-left: 5%;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    select, button {
+      width: 90%;
+      padding: 10px 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #b9dfb9;
+      font-size: 15px;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: #2da82d;
+      box-shadow: 0 0 5px rgba(45, 168, 45, 0.3);
+    }
+
+    button {
+      background: #008000;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      margin-top: 15px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00a300;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f0fff0;
+      border: 1px solid #a4e5a4;
+      box-shadow: inset 0 0 6px rgba(0, 128, 0, 0.1);
+    }
+
+    .winner {
+      color: #007000;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .prob {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #555;
+      text-align: center;
+    }
+
+    /* Small screen responsiveness */
+    @media (max-width: 768px) {
+      body {
+        justify-content: center;
+        padding: 0;
+      }
+      .card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>FIFA World Cup 2026 Predictor</h2>
+
+    <form method="post" action="/predict">
+      <label>Team A</label>
+      <select name="team_a" required>
+        <option value="">Choose Team A</option>
+        {% for t in teams %}
+          <option value="{{ t }}">{{ t }}</option>
+        {% endfor %}
+      </select>
+
+      <label>Team B</label>
+      <select name="team_b" required>
+        <option value="">Choose Team B</option>
+        {% for t in teams %}
+          <option value="{{ t }}">{{ t }}</option>
+        {% endfor %}
+      </select>
+
+      <label>Match Location</label>
+      <select name="location" required>
+        <option value="">Choose Location</option>
+        {% for loc in locations %}
+          <option value="{{ loc }}">{{ loc }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit">Predict Winner</button>
+    </form>
+
+    {% if result %}
+      {% if result is string %}
+        <div class="result"><div class="prob">{{ result }}</div></div>
+      {% else %}
+        <div class="result">
+          <div class="winner">{{ result.winner }} will likely win in {{ result.location }}</div>
+          <div class="prob">
+            {{ result.team_a }} Win: {{ result.team_a_win }}%<br>
+            Draw: {{ result.draw }}%<br>
+            {{ result.team_b }} Win: {{ result.team_b_win }}%
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    <div class="note"></div>
+  </div>
+</body>
+</html>
