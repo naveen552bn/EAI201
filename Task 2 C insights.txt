@@ -1,0 +1,58 @@
+TASK 2(C): Insight Questions — Written Explanation
+Insight 1: What does the class distribution show about class imbalance?
+
+The class distribution chart shows that the dataset is not balanced.
+Some animal classes contain many samples, while others contain very few.
+
+Evidence:
+
+From statistical analysis:
+Class imbalance ratio = largest class size / smallest class size
+For example (your output will give exact values):
+
+Largest class size: 41
+Smallest class size: 4
+Class imbalance ratio ≈ 10.25
+
+In the horizontal bar chart, a small number of classes dominate the dataset visually.
+
+Conclusion:
+
+The dataset is moderately to highly imbalanced, which means machine learning models may become biased toward majority classes.
+Techniques such as class-weighting, oversampling minority classes, or undersampling may be needed to handle this during modeling.
+
+Insight 2: Do the engineered biological features help differentiate animal classes?
+
+Yes, the engineered features is_mammal_like and is_aquatic_or_airborne show clear separation between classes in the boxplots.
+
+Evidence:
+
+The boxplot for is_mammal_like shows higher values for mammal-related classes, because mammals typically have hair and produce milk.
+
+The boxplot for is_aquatic_or_airborne shows distinct distributions for aquatic animals and birds, reflecting adaptations like swimming and flying.
+
+Conclusion:
+
+The engineered features represent meaningful biological characteristics and successfully separate class groups.
+This indicates they add value to the dataset and will likely improve model performance during classification.
+
+Insight 3: Are there strong relationships or redundancies between features?
+
+Strong correlations are visible in the correlation heatmap with clustering, indicating redundancy between several biological traits.
+
+Evidence:
+
+Strongly correlated feature pairs (>0.8) identified include:
+
+milk and hair
+
+aquatic and fins
+
+backbone and breathes
+
+The hierarchical clustering groups biologically similar features together, confirming redundancy.
+
+Conclusion:
+
+Some features carry overlapping information and may cause multicollinearity, especially for linear models.
+Tree-based models can handle this, but logistic regression or SVM may require removing one feature from each highly correlated pair or applying dimensionality reduction methods such as PCA.
